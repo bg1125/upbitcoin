@@ -2,8 +2,8 @@ import time
 import pyupbit
 import datetime
 
-access = "GCUYKoCzCMwMPsr55tYNZKN4Mr4XmVhxjbfuuFjC"
-secret = "bWxX6tXDvLIrxmb0DUP6PYxVEmkWFrxLxnuKHhdG"
+access = "256p1dCTX9pKW1tcIFuvWlheQ7GpjJC9yxYSIzzB"
+secret = "b9pwnJMYZ36bT4y9kvmVYGGdX07FnrQe0f3i92sXZ"
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -17,10 +17,10 @@ def get_start_time(ticker):
     start_time = df.index[0]
     return start_time
 
-def get_ma7(ticker):
-    """7일 이동 평균선 조회"""
-    df = pyupbit.get_ohlcv(ticker, interval="day", count=7)
-    ma7 = df['close'].rolling(7).mean().iloc[-1]
+def get_ma5(ticker):
+    """5일 이동 평균선 조회"""
+    df = pyupbit.get_ohlcv(ticker, interval="day", count=5)
+    ma7 = df['close'].rolling(5).mean().iloc[-1]
     return ma7
 
 def get_balance(ticker):
@@ -49,8 +49,8 @@ while True:
         end_time = start_time + datetime.timedelta(days=1)
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-BTC", 0.6)
-            ma7 = get_ma7("KRW-BTC")
+            target_price = get_target_price("KRW-BTC", 0.3)
+            ma7 = get_ma5("KRW-BTC")
             current_price = get_current_price("KRW-BTC")
             if target_price < current_price and ma7 < current_price:
                 krw = get_balance("KRW")
